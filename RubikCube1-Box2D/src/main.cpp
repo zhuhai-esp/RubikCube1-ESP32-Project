@@ -1,5 +1,3 @@
-#pragma GCC optimize("O3")
-
 #include "MPU6886.h"
 #include "TFTDebugDraw.h"
 #include <Arduino.h>
