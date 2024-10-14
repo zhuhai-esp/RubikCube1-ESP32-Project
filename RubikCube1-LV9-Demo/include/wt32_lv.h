@@ -21,7 +21,6 @@ void disable_speaker() {
 
 static const uint32_t buf_size = LV_DISP_HOR_RES * 10;
 static lv_color_t dis_buf1[buf_size];
-// static lv_color_t dis_buf2[buf_size];
 
 void inline lv_touch_init() {
   auto *indev_touchpad = lv_indev_create();
@@ -55,7 +54,7 @@ void inline lv_disp_init() {
 
 inline void init_wt32_lvgl() {
   tft.init();
-  tft.setBrightness(20);
+  tft.setBrightness(15);
   lv_init();
   lv_tick_set_cb((lv_tick_get_cb_t)millis);
   lv_disp_init();

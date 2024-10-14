@@ -4,8 +4,15 @@
 #include "wt32_lv.h"
 #include <Arduino.h>
 #include <ArduinoOTA.h>
+#include <WiFiManager.h>
 
 char buf[128] = {0};
+WiFiManager wifiManager;
+
+void inline webConfigWifi() {
+  show_center_msg("Config WiFi Connection!");
+  wifiManager.autoConnect();
+}
 
 void inline autoConfigWifi() {
   WiFi.mode(WIFI_MODE_STA);

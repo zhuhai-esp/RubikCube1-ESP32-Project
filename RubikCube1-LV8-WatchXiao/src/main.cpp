@@ -91,7 +91,8 @@ void setup() {
   init_wt32_lvgl();
   ui_init();
   ui_text_init();
-  autoConfigWifi();
+  // autoConfigWifi();
+  webConfigWifi();
   setupOTAConfig();
   startConfigTime();
   showClientIP();
@@ -105,11 +106,11 @@ void loop() {
   }
   if (ms - check300ms > 300) {
     check300ms = ms;
-    showCurrentTime();
   }
   if (ms - check100ms > 100) {
     check100ms = ms;
     showNextArch();
+    showCurrentTime();
   }
   if (ms - check5ms > 5) {
     check5ms = ms;
