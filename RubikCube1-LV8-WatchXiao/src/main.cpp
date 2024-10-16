@@ -9,7 +9,8 @@ long check100ms = 0;
 long check5ms = 0;
 
 static lv_obj_t *anchors[8];
-const char *weekday_str[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+LV_FONT_DECLARE(simsun_16);
+static const char *WEEK_DAYS[] = {"日", "一", "二", "三", "四", "五", "六"};
 
 lv_obj_t *label_date;
 lv_obj_t *label_ip;
@@ -44,6 +45,7 @@ void ui_text_init() {
   for (auto *ac : anchors) {
     lv_obj_add_flag(ac, LV_OBJ_FLAG_HIDDEN);
   }
+  lv_obj_set_style_text_font(ui_LabelDate, &simsun_16, LV_PART_MAIN);
 }
 
 inline void showClientIP() {
@@ -64,7 +66,7 @@ inline void showCurrentTime() {
   lv_img_set_angle(ui_ImageArmHour,
                    info.tm_hour * 300 + info.tm_min / 12 % 12 * 60);
 
-  sprintf(buf, "%s %d", weekday_str[info.tm_wday], info.tm_mday);
+  sprintf(buf, "周%s %d", WEEK_DAYS[info.tm_wday], info.tm_mday);
   lv_label_set_text(ui_LabelDate, buf);
 }
 
