@@ -20,8 +20,8 @@ lv_obj_t *label_loc;
 lv_obj_t *label_wind;
 lv_obj_t *label_ip;
 
-static json city_info;
-static json weather;
+static JsonDocument city_info;
+static JsonDocument weather;
 
 void start_lv_app() {
   lv_obj_t *parent = lv_scr_act();
@@ -67,10 +67,13 @@ inline void showClientIP() {
 
 inline void updateWeatherInfo() {
   weather = get_now_weather_info(city_info["cityId"]);
-  json ip_info = city_info["ip"];
-  string province = ip_info["province"], city = ip_info["city"],
-         district = ip_info["district"], condition = weather["CONDITIONSTEXT"],
-         wind = weather["WIND"], aiq_str = weather["levelIndex"];
+  auto ip_info = city_info["ip"];
+  String province = ip_info["province"];
+  String city = ip_info["city"];
+  String district = ip_info["district"];
+  String condition = weather["CONDITIONSTEXT"];
+  String wind = weather["WIND"];
+  String aiq_str = weather["levelIndex"];
   int aqi = weather["aqi"];
   int temp = weather["TEMP"], winp = weather["WINP"], humi = weather["HUMI"];
   sprintf(buf, "%s %s %s %s %d℃", province.c_str(), city.c_str(),
