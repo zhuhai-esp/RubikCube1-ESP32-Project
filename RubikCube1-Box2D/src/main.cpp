@@ -1,6 +1,6 @@
-#include "MPU6886.h"
 #include "TFTDebugDraw.h"
 #include <Arduino.h>
+#include <FastIMU.h>
 #include <SPI.h>
 #include <box2d/box2d.h>
 
@@ -9,7 +9,7 @@ LGFX_Sprite sprite(&lcd);
 
 b2World *myWorld = NULL;
 unsigned long lastMs = 0;
-I2C_MPU6886 imu;
+MPU6886 imu;
 #define PIN_SPEAKER 25
 
 void disable_speaker() {
@@ -83,10 +83,10 @@ void createSomeWorld() {
   groundBox.SetAsBox(.05, 12, b2Vec2(32, 12), 0);
   groundBody->CreateFixture(&groundBox, 0.0f);
 
-  for (int i = 0; i < 16; i++) {
+  for (int i = 0; i < 4; i++) {
     createSomeBox();
   }
-  for (int i = 0; i < 24; i++) {
+  for (int i = 0; i < 6; i++) {
     createSomeBall();
   }
 }
@@ -95,11 +95,11 @@ void setup() {
   disable_speaker();
   Serial.begin(115200);
   lcd.init();
-  lcd.setBrightness(20);
+  lcd.setBrightness(40);
   createSomeWorld();
   delay(200);
   Wire.begin(21, 22, 2000);
-  imu.begin();
+  imu.init({}, 0x68);
   sprite.setColorDepth(8);
   sprite.createSprite(320, 240);
 }
@@ -112,7 +112,9 @@ void loop() {
   if (millis() - lastMs >= 1000) {
     lastMs = millis();
     float gx, gy, gz;
-    imu.getAccel(&gx, &gy, &gz);
-    myWorld->SetGravity(b2Vec2(-gy * 10, -gx * 10));
+    imu.update();
+    static AccelData acc;
+    imu.getAccel(&acc);
+    myWorld->SetGravity(b2Vec2(-acc.accelY * 10, -acc.accelX * 10));
   }
 }
